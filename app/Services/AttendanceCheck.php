@@ -21,8 +21,8 @@ class AttendanceCheck
         $cookieJar = new FileCookieJar($file);
         return new Client([
             'verify' => false,
-            // 'base_uri' => 'http://192.168.0.10/presensa/',
-            'base_uri' => 'http://127.0.0.1:8000/presensa/',
+            'base_uri' => 'http://192.168.0.10/presensa/',
+            // 'base_uri' => 'http://127.0.0.1:8000/presensa/',
             'cookies' => $cookieJar,
         ]);
     }
@@ -47,5 +47,21 @@ class AttendanceCheck
     {
         $response = $this->client->request('GET', 'clockin.php', ['debug' => true]);
         return $response->getBody()->getContents();
+    }
+    public function doOut()
+    {
+        $response = $this->client->request('GET', 'clockout.php', ['debug' => true]);
+        return $response->getBody()->getContents();
+    }
+    public function doLogout()
+    {
+
+        $response = $this->client->request('POST', 'logout.php', [
+            'debug' => true,
+            'form_params' => [
+                'username' => $this->user->username,
+                'password' => $this->user->password,
+            ],
+        ]);
     }
 }

@@ -5,14 +5,14 @@ namespace App\Console\Commands;
 use App\Services\AttendanceCheck as Check;
 use Illuminate\Console\Command;
 
-class CheckPresence extends Command
+class BruteCheckPresence extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'check:presence {type} {username}';
+    protected $signature = 'presence:brute {type} {username}';
 
     /**
      * The console command description.
@@ -30,12 +30,15 @@ class CheckPresence extends Command
     {
         $check = new Check($this->argument('username'));
 
-        // do this if check in
+        // checking presence type
         if ($this->argument('type') === 'in') {
+            $check->doLogin();
             $output = $check->doAttend();
             $this->info($output);
         } else {
-            $this->info('absen keluar');
+            $check->doLogin();
+            $output = $check->doOut();
+            $this->info($output);
         }
     }
 }

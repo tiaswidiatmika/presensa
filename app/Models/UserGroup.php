@@ -11,6 +11,6 @@ class UserGroup extends Model
 
     public function users()
     {
-        return $this->hasMany(User::class);
+        return $this->hasMany(User::class, 'user_groups_id');
     }
 }
